@@ -1,4 +1,8 @@
 interface ITimer {
-  a: number;
-  b: number;
+  timer: HTMLElement | null;
+}
+
+interface IButton {
+  name: string,
+  className: string[],
 }

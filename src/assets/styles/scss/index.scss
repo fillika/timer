@@ -37,6 +37,13 @@ img {
   width: 100%;
 }
 
+button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
 .visually-hidden {
   position: absolute !important;
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
@@ -50,5 +57,49 @@ img {
 }
 
 .timer {
-  height: 40px;
+  &__container {
+    border: 1px solid #000;
+    padding: 1em;
+    max-width: 400px;
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  &__time-block {
+    width: 80%;
+    margin: 0 auto 0.3em;
+    text-align: center;
+    font-size: 4.5em;
+    font-weight: bold;
+  }
+
+  &__button-box {
+  }
+}
+
+.timer-button {
+  text-align: center;
+  padding: 0.5em 1em;
+  border: 1px solid;
+  display: block;
+  width: 100%;
+  margin-bottom: 0.4em;
+  font-size: 1.25em;
+  font-weight: bold;
+  color: #fff;
+
+  &--start {
+    background-color: $greenBtn;
+    border-color: $greenBtn;
+  }
+
+  &--stop {
+    background-color: $redBtn;
+    border-color: $redBtn;
+  }
+
+  &--reset {
+    background-color: $grayBtn;
+    border-color: $grayBtn;
+  }
 }
