@@ -4,6 +4,10 @@
  */
 class Dom implements ITimer {
   timer: HTMLElement | null;
+  timerContainer: HTMLElement | null;
+  startBtn: HTMLElement | null;
+  stopBtn: HTMLElement | null;
+  resetBtn: HTMLElement | null;
 
   static buttons = [
     {
@@ -22,6 +26,11 @@ class Dom implements ITimer {
 
   constructor(selector: string) {
     this.timer = document.getElementById(selector);
+    this.timerContainer = null;
+    this.startBtn = null;
+    this.stopBtn = null;
+    this.resetBtn = null;
+
     this.init();
   }
 
@@ -36,6 +45,7 @@ class Dom implements ITimer {
   }
 
   private render() {
+    (<any>window).Timer = this;
     this.createElements();
   }
 
@@ -46,8 +56,8 @@ class Dom implements ITimer {
     const timerContainer = Dom.createEl('div');
     timerContainer.classList.add('timer__container');
 
-    const timeBlock = Dom.createTimerBlock();
-    const buttonsBlock = Dom.createButtonsBLock();
+    const timeBlock = this.createTimerBlock();
+    const buttonsBlock = this.createButtonsBLock();
 
     timerContainer.appendChild(timeBlock);
     timerContainer.appendChild(buttonsBlock);
@@ -56,22 +66,18 @@ class Dom implements ITimer {
   }
 
   /**
-   * Метод создания контейнера с секундами и надписью sec
+   * Метод создания контейнера с секундами
    */
-  private static createTimerBlock(): HTMLElement {
+  private createTimerBlock(): HTMLElement {
     const timeBlock = Dom.createEl('div');
     const timeContainer = Dom.createEl('span');
-    const secContainer = Dom.createEl('span');
-    const br = Dom.createEl('br');
 
+    this.timerContainer = timeContainer;
     timeContainer.id = 'timer-time';
-    timeContainer.textContent = '0.0';
-    secContainer.textContent = 'sec';
+    timeContainer.textContent = '00:00:00.0';
 
     timeBlock.classList.add('timer__time-block');
     timeBlock.appendChild(timeContainer);
-    timeBlock.appendChild(br);
-    timeBlock.appendChild(secContainer);
 
     return timeBlock;
   }
@@ -79,13 +85,19 @@ class Dom implements ITimer {
   /**
    * Метод, который создает контейнер с кнопками
    */
-  private static createButtonsBLock(): HTMLElement {
+  private createButtonsBLock(): HTMLElement {
     const buttonContainer = Dom.createEl('div');
     buttonContainer.classList.add('timer__button-box');
 
     Dom.buttons.forEach((btn: IButton) => {
       const { name, className } = btn;
       const button = Dom.createEl('button');
+
+      if (name === 'Start') this.startBtn = button;
+
+      if (name === 'Stop') this.stopBtn = button;
+
+      if (name === 'Reset') this.resetBtn = button;
 
       button.textContent = name;
       className.forEach((clsName: string) => button.classList.add(clsName));
