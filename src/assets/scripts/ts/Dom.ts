@@ -2,7 +2,7 @@
  * Класс DOM определяет в себе метод init - для инициализации и проверки и
  * метод рендер - для рендера элементов в DOM.
  */
-class Dom implements ITimer {
+class Dom implements IDom {
   timer: HTMLElement | null;
   timerContainer: HTMLElement | null;
   startBtn: HTMLElement | null;

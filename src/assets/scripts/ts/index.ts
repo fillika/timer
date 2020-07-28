@@ -3,7 +3,7 @@ import Dom from './Dom';
 /**
  * Класс Timer подразумевает сущность для работы с событиями таймера - например его запуск, остановку и т.д.
  */
-class Timer extends Dom {
+class Timer extends Dom implements ITimer {
   count: number;
   millisec: number;
   minutes: number;
@@ -29,6 +29,9 @@ class Timer extends Dom {
     }
   }
 
+  /**
+   * Метод запускает все события таймера
+   */
   private firstInit() {
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
@@ -46,22 +49,17 @@ class Timer extends Dom {
         this.count += this.millisec;
 
         if (this.count >= 60000) {
-          this.count = 0;
-          this.minutes += 1;
+          this.plusMinute();
         }
 
         if (this.minutes >= 60) {
-          this.minutes += 0;
-          this.hours += 1;
+          this.plusHour();
         }
 
-        const seconds = (this.count / 1000) < 10 ? `0${(this.count / 1000).toFixed(1)}` : (this.count / 1000).toFixed(1)
-        const minutes = this.minutes <= 9 ? `0${ this.minutes }` : this.minutes;
-        const hours = this.hours <= 9 ? `0${ this.hours }` : this.hours;
-
-        const str = `${ hours }:${ minutes }:${seconds}`; // Чтобы привести к строке + 1 знак после запятой
+        const str = this.getResult(); // Чтобы привести к строке + 1 знак после запятой
 
         this.print(str);
+
       }, this.millisec);
     }
   }
@@ -74,6 +72,36 @@ class Timer extends Dom {
   public reset(): void {
     this.count = 0;
     this.print('00:00:00.0');
+  }
+
+  /**
+   * Метод обнуляет секунды и прибавляет одну минуту
+   */
+  private plusMinute(): void {
+    this.count = 0;
+    this.minutes += 1;
+  }
+
+  /**
+   * Метод обнуляет минуты и прибавляет один час
+   */
+  private plusHour(): void {
+    this.minutes += 0;
+    this.hours += 1;
+  }
+
+  /**
+   * Метод формирует строку, которую мы показываем пользователю.
+   * Внутри тернарный оператор сравнивает 3 значения и выдает строку
+   * Которую мы печатаем.
+   */
+  private getResult(): string {
+    const currentTime = this.count / 1000;
+    const seconds = currentTime < 10 ? `0${ currentTime.toFixed(1) }` : currentTime.toFixed(1);
+    const minutes = this.minutes <= 9 ? `0${ this.minutes }` : this.minutes;
+    const hours = this.hours <= 9 ? `0${ this.hours }` : this.hours;
+
+    return `${ hours }:${ minutes }:${ seconds }`; // Чтобы привести к строке + 1 знак после запятой
   }
 }
 
