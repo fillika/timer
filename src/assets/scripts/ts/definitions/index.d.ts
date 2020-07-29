@@ -15,9 +15,9 @@ interface ITimer {
   flag: boolean;
 }
 
-
-
 interface IButton {
   name: string,
   className: string[],
 }
+
+type typeTimer = ReturnType<typeof setTimeout>;

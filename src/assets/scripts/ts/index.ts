@@ -8,7 +8,7 @@ class Timer extends Dom implements ITimer {
   millisec: number;
   minutes: number;
   hours: number;
-  timeoutId: ReturnType<typeof setTimeout> | null;
+  timeoutId: typeTimer | null;
   flag: boolean;
 
   constructor(selector: string) {
@@ -66,7 +66,7 @@ class Timer extends Dom implements ITimer {
 
   public stop(): void {
     this.flag = false;
-    clearTimeout(this.timeoutId);
+    clearTimeout(this.timeoutId as typeTimer);
   }
 
   public reset(): void {
